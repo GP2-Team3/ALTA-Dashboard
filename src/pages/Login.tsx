@@ -16,46 +16,50 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //   const authLogin = async (e : any) => {
-  //       e.preventDefault();
-  //       await axios
-  //           .post(`http://34.136.159.229:8000/auth`, {
-  //               email: email,
-  //               password: password,
-  //           })
-  //           .then((response) => {
-  //               const { data } = response.data;
-  //               if (data) {
-  //                   Swal.fire({
-  //                       position: "center",
-  //                       icon: "success",
-  //                       text: "Signed successfully",
-  //                       showConfirmButton: false,
-  //                       timer: 1500,
-  //                   });
-  //                   setCookie("userToken", data.token, { path: "/" });
-  //                   dispatch(updateUser(data));
-  //                   navigate("/dashboard");
-  //               }
-  //           })
-  //           .catch((error) => {
-  //               Swal.fire({
-  //                   position: "center",
-  //                   icon: "error",
-  //                   title: "Email or Password incorrect",
-  //                   showConfirmButton: true,
-  //               });
-  //               console.log(error);
 
-  //           });
-  //   };
+  // "email": "jerry@alterra.id",
+  //  "token": "wjibksoliigk;s",
 
-  //   useEffect(() => {
-  //     if (cookies.userToken) {
-  //       navigate("/dashboard");
-  //     }
-  //     return () => {};
-  //   }, [cookies.userToken]);
+    const authLogin = async (e : any) => {
+        e.preventDefault();
+        await axios
+            .post(`https://virtserver.swaggerhub.com/iffakhry/alta-dashboard/1.0.0/login`, {
+                email: email,
+                password: password,
+            })
+            .then((response) => {
+                const { data } = response.data;
+                if (data) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        text: "Signed successfully",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    setCookie("userToken", data.token, { path: "/" });
+                    dispatch(updateUser(data));
+                    navigate("/dashboard");
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Email or Password incorrect",
+                    showConfirmButton: true,
+                });
+                console.log(error);
+
+            });
+    };
+
+    useEffect(() => {
+      if (cookies.userToken) {
+        navigate("/dashboard");
+      }
+      return () => {};
+    }, [cookies.userToken]);
 
   return (
     <Container>
@@ -82,7 +86,9 @@ const Login = () => {
           <h1 className="text-3xl font-semibold text-center text-dark-alta uppercase mt-10">
             Sign in
           </h1>
-          <form className="mt-6 flex flex-col justify-center align-middle">
+          <form className="mt-6 flex flex-col justify-center align-middle"
+          onSubmit={authLogin}
+          >
             <div className="mb-2  mx-auto">
               <label
                 htmlFor="email"
