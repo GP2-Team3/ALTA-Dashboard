@@ -12,13 +12,13 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="flex flex-col bg-dark-alta h-screen">
+    <div className="flex flex-col w-80">
      
         {/* ============= */}
         {/* SIDEBAR START */}
         {/* ============= */}
         
-        <div className="drawer-side ">
+        <div className="drawer-side bg-primary h-screen fixed">
           <label htmlFor="my-drawer-2 " className="drawer-overlay "></label>
           <ul className="flex menu p-4 w-64 text-white  ">
             <div className=" mx-auto mb-5 w-44">
