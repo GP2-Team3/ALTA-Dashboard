@@ -2,33 +2,39 @@ import React, { FC } from "react";
 
 interface Props {
     namePages: string
-    userName: string
+    userName: string | any
     onLogout?: React.MouseEventHandler
 }
 
-const Navbar: FC <Props> = ({ namePages, onLogout, userName }) => {
+const Navbar: FC <Props> = ({ namePages, userName,onLogout }) => {
 
   return (
-    <div className="w-full overflow-hidden ">
-      <div className="flex flex-col p-5">
-        <p className="text-3xl font-bold text-dark-alta pb-3">
+
+    <>
+    <div className="w-full overflow-hidden p-7">
+      <div className="flex flex-col ">
+        <p className="text-4xl font-bold text-dark-alta pb-3 ml-5">
           Immersive Dashboard
         </p>
-        <div className="flex justify-between">
-          <p className="text-xl font-bold text-orange-alta ">{namePages}</p>
+        <div className="flex justify-between mx-10">
+          <h3 className="text-3xl font-bold text-dark-alta ">{namePages}</h3>
           <div className="flex space-x-4 items-center">
-            <p className="text-xl text-dark-alta/50 ">
+            <p className={`text-3xl text-dark-alta/50 hover:`} >
               Hello, <span className="text-dark-alta font-bold">{userName}</span>
             </p>
-            <button className="btn bg-dark-alta border-none mt-2 p-2 mr-5 text-white" onClick={onLogout}>Log out</button>
+            <button onClick={onLogout} className="btn btn-xs">logout</button>
           </div>
         </div>
       </div>
-      <div className="mx-5">
-        <hr className="border-dark-alta " />
+      <div className="">
         <hr className="border-dark-alta my-3" />
       </div>
     </div>
+    
+    </>
+
+
+
   );
 };
 
