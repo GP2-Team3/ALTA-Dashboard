@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export interface FormValues {
     full_name: string;
@@ -26,6 +26,12 @@ const initialFormValues: FormValues = {
 
 const AddUser: React.FC<FormProps> = ({ onSubmit, editValues, editMode }) => {
     const [formValues, setFormValues] = useState<FormValues>(editValues);
+
+    useEffect(() => {
+        if (editMode || !editMode) {
+            setFormValues(editValues);
+        }
+    }, [editValues, editMode]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -66,8 +72,10 @@ const AddUser: React.FC<FormProps> = ({ onSubmit, editValues, editMode }) => {
                         <label className='text-primary' htmlFor="email">Email</label>
                         <input required className='mb-2 input input-bordered' type="email" id="email" name="email" value={formValues.email} onChange={handleInputChange} />
 
-                        <label className='text-primary' htmlFor="password">Password</label>
-                        <input required className='mb-2 input input-bordered' type="password" id="password" name="password" value={formValues.password} onChange={handleInputChange} />
+                        <div className={`${editMode ? "hidden" : ""} flex flex-col`}>
+                            <label className='text-primary' htmlFor="password">Password</label>
+                            <input {...(editMode ? {} : { required: true })} className='mb-2 input input-bordered' type="password" id="password" name="password" value={formValues.password} onChange={handleInputChange} />
+                        </div>
 
                         <div className='flex justify-between'>
 
