@@ -66,7 +66,7 @@ const UserList = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const isAdmin: boolean = auth.user?.data.role === "Admin"
 
-    const filters: string[] = ["Team", "Role", "Status"];
+    // const filters: string[] = ["Team", "Role", "Status"];
     const headers: Record<string, string> = isAdmin ?
         {
             "id": "ID",
@@ -255,7 +255,31 @@ const UserList = () => {
                             handleFilterChange={handleSearchInputChange}
                         />
 
-                        {filters.map((filter: string) => {
+                        <Filter
+                            labelText="Team"
+                            defaultOption="Filter Team"
+                            options={everyTeam}
+                            selected={selectedTeam}
+                            handleFilterChange={handleSelectedTeamChange}
+                        />
+
+                        <Filter
+                            labelText="Role"
+                            defaultOption="Filter Role"
+                            options={everyRole}
+                            selected={selectedRole}
+                            handleFilterChange={handleSelectedRoleChange}
+                        />
+
+                        <Filter
+                            labelText="Status"
+                            defaultOption="Filter Status"
+                            options={everyStatus}
+                            selected={selectedStatus}
+                            handleFilterChange={handleSelectedStatusChange}
+                        />
+
+                        {/* {filters.map((filter: string) => {
                             return (
                                 <Filter
                                     key={filter}
@@ -266,7 +290,7 @@ const UserList = () => {
                                     handleFilterChange={eval(`handleSelected${filter}Change`)}
                                 />
                             )
-                        })}
+                        })} */}
 
                         {isAdmin ?
                             <button onClick={() => {
