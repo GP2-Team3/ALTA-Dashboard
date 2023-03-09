@@ -25,19 +25,6 @@ const MenteeLog = () => {
   const fullname = JSON.parse(localStorage.getItem("user") || "") as User;
   const [onSelect, setOnSelect] = useState("");
 
-  // const urlDetailLogs = `https://virtserver.swaggerhub.com/ASPEAKER427_1/immersive-dashboard-app_api/2.0.0/mentees/${id}/logs`
-  // const urlGetDetail = async() => {
-  //   await axios.get(urlDetailLogs, {
-  //     headers :{Authorization : `Bearer ${cookies.userToken}`}
-  //   })
-  //   .then((res) => {
-  //     console.log(res.data);
-  //     setDetail(res.data)
-  //   })
-  //   .catch((err) => { console.log(err);
-  //    })
-  // }
-
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("");
   const [feedback, setFeedback] = useState("");
@@ -74,8 +61,10 @@ const MenteeLog = () => {
       })
       .catch((err) => console.log(err));
   };
+  // Add New Log end
 
-  const getMentee = async () => {
+  // Fetch data for details
+  const geDetails = async () => {
     await axios
       .get(`https://my-extravaganza.site/mentees/${mentee}`, {
         headers: { Authorization: `Bearer ${cookies.userToken}` },
@@ -93,7 +82,7 @@ const MenteeLog = () => {
 
 
   const API_URL = `https://my-extravaganza.site/mentees/${mentee}/logs?page=1&limit=3`;
-  const getDetail = async () => {
+  const getLogs = async () => {
     try {
       const response = await axios.get(API_URL);
       setLogs(response.data.data.data);
@@ -102,15 +91,18 @@ const MenteeLog = () => {
       console.log(error);
     }
   };
+// End fetch
+
   useEffect(() => {
     if (!cookies.userToken) {
       dispatch(logout());
     }
-    getDetail();
+    getLogs();
     addNewLog();
-    getMentee()
+    geDetails()
   }, [cookies.userToken, dispatch]);
 
+  // Handle For Logout
   const handleLogout = useCallback(() => {
     Swal.fire({
       title: "Are you sure?",
@@ -182,63 +174,63 @@ const MenteeLog = () => {
             Back
           </div>
           <label htmlFor="my-modal-6" className="bg-dark-alta w-30 text-white btn">
-            Add New Log
-          </label>
-          {/* Put this part before </body> tag */}
-          <input type="checkbox" id="my-modal-6" className="modal-toggle" />
-          <div className="modal modal-bottom sm:modal-middle">
-            <div className="modal-box">
-              <h3 className="text-lg font-bold text-start">New Log</h3>
-              <div className="flex flex-col align-middle mt-5 gap-2">
-                <p className="flex flex-start text-dark-alta font-semibold">Title : </p>
-                <input type="text" className="flex flex-start border rounded-md h-12 border-dark-alta"
-                  placeholder="    title"
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col align-middle mt-5">
-                <p className="flex flex-start text-dark-alta font-semibold">Mentee ID : </p>
-                <input type="number" className="flex flex-start border w-36 h-12 border-dark-alta rounded-md"
-                  placeholder="  type your id here"
-                  onChange={(e) => setId(parseInt(e.target.value))}
-                />
-              </div>
-              <div className="flex  flex-col  text-start mt-5 gap-2">
-                <p className="text-dark-alta font-semibold">Status : </p>
-                <select
-                  onChange={(e) => setStatus(e.target.value)}
-                  className="select select-bordered w-40 bg-white border border-dark-alta h-10 text-dark-alta"
-                >
-                  <option value="Join Class">Join Class</option>
-                  <option value="Not-Active">Not-Active</option>
-                  <option value="Deleted">Deleted</option>
-                </select>
-              </div>
-              <div className="flex flex-col mt-5 mb-5 text-start gap-2">
-                <p className="text-dark-alta font-semibold">Feedback : </p>
-                <textarea
-                  placeholder="Bio"
-                  className="textarea textarea-bordered textarea-xs w-full max-w-xs"
-                  onChange={(e) => setFeedback(e.target.value)}
-                ></textarea>
-              </div>
-              <div className="flex flex-row justify-end align-middle gap-2">
-                <label
-                  htmlFor="my-modal-6"
-                  className="modal-action btn-sm w-20 my-auto btn  bg-white border border-orange-alta hover:bg-orange-alta hover:text-white hover:border-none text-orange-alta "
-                >
-                  Cancel
-                </label>
-                <button
-                  type="submit"
-                  className="btn btn-sm bg-orange-alta border border-orange-alta text-white w-20 hover:text-orange-alta hover:bg-white hover:border-orange-alta"
-                  onClick={addNewLog}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
+        Add New Log
+      </label>
+      {/* Put this part before </body> tag */}
+      <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="text-lg font-bold text-start">New Log</h3>
+          <div className="flex flex-col align-middle mt-5 gap-2">
+            <p className="flex flex-start text-dark-alta font-semibold">Title : </p>
+            <input type="text" className="input flex flex-start border rounded-md h-12 border-dark-alta"
+            placeholder="title"
+            onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
+          <div className="flex flex-col align-middle mt-5">
+            <p className="flex flex-start text-dark-alta font-semibold">Mentee ID : </p>
+            <input type="number" className="input flex flex-start border w-48 h-12 border-dark-alta rounded-md"
+            placeholder="type your id here"
+            onChange={(e) => setId(parseInt(e.target.value))}
+            />
+          </div>
+          <div className="flex  flex-col  text-start mt-5 gap-2">
+            <p className="text-dark-alta font-semibold">Status : </p>
+            <select         
+              onChange={(e) => setStatus(e.target.value)}
+              className="select select-bordered w-40 bg-white border border-dark-alta h-10 text-dark-alta"
+            >
+              <option value="Join Class">Join Class</option>
+              <option value="Not-Active">Not-Active</option>
+              <option value="Deleted">Deleted</option>
+            </select>
+          </div>
+          <div className="flex flex-col mt-5 mb-5 text-start gap-2">
+            <p className="text-dark-alta font-semibold">Feedback : </p>
+            <textarea
+              placeholder="Bio"
+              className="textarea textarea-bordered textarea-xs w-full max-w-xs"
+              onChange={(e) => setFeedback(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="flex flex-row justify-end align-middle gap-2">
+            <label
+              htmlFor="my-modal-6"
+              className="modal-action btn-sm w-20 my-auto btn  bg-white border border-orange-alta hover:bg-orange-alta hover:text-white hover:border-none text-orange-alta "
+            >
+              Cancel
+            </label>
+            <button
+              type="submit"
+              className="btn btn-sm bg-orange-alta border border-orange-alta text-white w-20 hover:text-orange-alta hover:bg-white hover:border-orange-alta"
+              onClick={addNewLog}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
 
         </div>
         <div className="flex flex-col gap-5 pt-5">

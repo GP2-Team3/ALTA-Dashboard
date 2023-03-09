@@ -278,12 +278,14 @@ const UserList = () => {
                     </div>
 
                     <Table
+                    key={filteredRows.id}
                         rows={filteredRows}
                         columns={headers}
                         loading={loading}
                         handleDelete={handleDelete}
                         handleEdit={handleEditMode}
                         editModal="add-user-modal"
+
                     />
 
                     <div className='flex gap-2 justify-end items-center'>
