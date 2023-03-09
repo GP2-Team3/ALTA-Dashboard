@@ -30,25 +30,6 @@ const AddMentee = () => {
   const auth = useSelector((state: { auth: AuthState }) => state.auth);
   const fullname = JSON.parse(localStorage.getItem("user") || "") as User;
 
-  // console.log(typeof id);
-  
-
-  // console.log(name);
-  // console.log(address);
-  // console.log(email);
-  // console.log(telegram);
-  // console.log(phone);
-  // console.log(emergencyName);
-  // console.log(emergencyPhone);
-  // console.log(status);
-  // console.log(education);
-  // console.log(major);
-  // console.log(graduate);
-  // console.log(id);
-  
-
-  
-
   const menteeAdd = async (e: any) => {
     const addNewMente = {
       full_name: name,
@@ -75,6 +56,8 @@ const AddMentee = () => {
       .catch((err) => console.log(err));
   };
 
+
+  // Handle For Logout
   const handleLogout = useCallback(() => {
     Swal.fire({
       title: "Are you sure?",
@@ -105,7 +88,9 @@ const AddMentee = () => {
       dispatch(logout());
     }
   }, [cookies.userToken, dispatch]);
-  console.log(auth.user?.data?.role);
+ 
+
+
   return (
     <Container>
       <Sidebar />

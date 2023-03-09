@@ -24,36 +24,18 @@ const MenteeLog = () => {
   const fullname = JSON.parse(localStorage.getItem("user") || "") as User;
   const [onSelect, setOnSelect] = useState("");
 
-  // const urlDetailLogs = `https://virtserver.swaggerhub.com/ASPEAKER427_1/immersive-dashboard-app_api/2.0.0/mentees/${id}/logs`
-  // const urlGetDetail = async() => {
-  //   await axios.get(urlDetailLogs, {
-  //     headers :{Authorization : `Bearer ${cookies.userToken}`}
-  //   })
-  //   .then((res) => {
-  //     console.log(res.data);
-  //     setDetail(res.data)
-  //   })
-  //   .catch((err) => { console.log(err);
-  //    })
-  // }
-
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("");
   const [feedback, setFeedback] = useState("");
   const [id, setId] = useState<number>();
 
-  console.log(title);
-  console.log(typeof id);
-  console.log(status);
-  console.log(feedback);
+  // console.log(title);
+  // console.log(typeof id);
+  // console.log(status);
+  // console.log(feedback);
   
-  // "title": 
-  // "status": 
-  // "feedback": 
-  // "mentee_id": 
-  
-  
-  
+
+  // fetch for new log with method POST
   const addNewLog = async () => {
     const addLogs = {
       title: title,
@@ -70,25 +52,24 @@ const MenteeLog = () => {
       })
       .catch((err) => console.log(err));
   };
+  // Add New Log end
 
-  const getMentee = async () => {
+  // Fetch data for details
+  const geDetails = async () => {
     await axios
       .get(`https://my-extravaganza.site/mentees/10`, {
         headers: { Authorization: `Bearer ${cookies.userToken}` },
       })
       .then((res) => { 
-        
-        
         setMentees(res.data.data);
       })
       .catch((err) => console.log(err));
   };
-console.log(mentees);
+  // End fetch
 
-
-  
+  // Fecth data for logs
   const API_URL = `https://my-extravaganza.site/mentees/10/logs?page=1&limit=3`;
-  const getDetail = async () => {
+  const getLogs = async () => {
     try {
       const response = await axios.get(API_URL);
       setLogs(response.data.data.data);
@@ -97,15 +78,18 @@ console.log(mentees);
       console.log(error);
     }
   };
+// End fetch
+
   useEffect(() => {
     if (!cookies.userToken) {
       dispatch(logout());
     }
-    getDetail();
+    getLogs();
     addNewLog();
-    getMentee()
+    geDetails()
   }, [cookies.userToken, dispatch]);
 
+  // Handle For Logout
   const handleLogout = useCallback(() => {
     Swal.fire({
       title: "Are you sure?",
@@ -161,7 +145,7 @@ console.log(mentees);
             <p>
               Telegram : <span>@{mentees.telegram}</span>
             </p>
-            
+         
             <p>
               Email : <span>{mentees.email}</span>
             </p>
@@ -186,15 +170,15 @@ console.log(mentees);
           <h3 className="text-lg font-bold text-start">New Log</h3>
           <div className="flex flex-col align-middle mt-5 gap-2">
             <p className="flex flex-start text-dark-alta font-semibold">Title : </p>
-            <input type="text" className="flex flex-start border rounded-md h-12 border-dark-alta"
-            placeholder="    title"
+            <input type="text" className="input flex flex-start border rounded-md h-12 border-dark-alta"
+            placeholder="title"
             onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className="flex flex-col align-middle mt-5">
             <p className="flex flex-start text-dark-alta font-semibold">Mentee ID : </p>
-            <input type="number" className="flex flex-start border w-36 h-12 border-dark-alta rounded-md"
-            placeholder="  type your id here"
+            <input type="number" className="input flex flex-start border w-48 h-12 border-dark-alta rounded-md"
+            placeholder="type your id here"
             onChange={(e) => setId(parseInt(e.target.value))}
             />
           </div>
