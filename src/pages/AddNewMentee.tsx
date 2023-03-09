@@ -10,6 +10,26 @@ import { AuthState, User, logout } from "../store/features/userSlice";
 import Swal from "sweetalert2";
 import axios from "axios";
 
+export interface FormValues {
+  name: string;
+  status: string;
+  education: string;
+  email: string;
+  phone: string;
+  address: string;
+  telegram: string;
+  emergencyName: string;
+  emergencyPhone: string;
+  major: string;
+  graduate: string;
+  id?: number;
+}
+
+interface NewMenteeProps {
+  editValues: FormValues;
+  editMode: boolean;
+}
+
 const AddMentee = () => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
@@ -52,8 +72,9 @@ const AddMentee = () => {
       })
       .then((res) => {
         console.log(res.data);
+        navigate("/menteelist");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
   };
 
 
@@ -88,6 +109,23 @@ const AddMentee = () => {
       dispatch(logout());
     }
   }, [cookies.userToken, dispatch]);
+  console.log(auth.user?.data?.role);
+
+  const endpointClass = `https://my-extravaganza.site/classes?page=1&limit=100`
+  const [classes, setClasses] = useState([])
+  const fetchClassData = async () => {
+    try {
+      const response = await axios.get(endpointClass);
+      console.log("Classes: ", response.data.data);
+      setClasses(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchClassData();
+  }, [endpointClass]);
  
 
 
@@ -245,13 +283,15 @@ const AddMentee = () => {
               />
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">class ID : </span>
-              <input
-                onChange={(e) => setId(parseInt(e.target.value))}
-                type="number"
-                placeholder=""
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
-              />
+              <span className="text-2xl font-bold">Class : </span>
+              <select required className='select select-bordered max-w-2xl w-full bg-white border border-gray-400 h-10' onChange={(e) => setId(parseInt(e.target.value))}>
+                <option disabled value="">Select a Class</option>
+                {classes.map((classy: any) => {
+                  return (
+                    <option value={classy.id}>{classy.name}</option>
+                  )
+                })}
+              </select>
             </label>
             <div className="flex justify-end gap-2 mt-5 mb-0">
               <button

@@ -36,9 +36,9 @@ const Table: React.FC<TableProps> = ({ rows, columns, loading, handleEdit, handl
                                 {Object.keys(columns).map((key) => {
                                     if (columns[key] === "Edit") {
                                         return (
-                                            <td key={key} className='text-accent border-primary/50 '>
-                                                <button  onClick={() => handleEdit && handleEdit(row.id)}>
-                                                    <label className='cursor-pointer' htmlFor={editModal}>Edit</label>
+                                            <td key={key} className='text-accent border-primary/50'>
+                                                <button onClick={() => handleEdit && handleEdit(row.id)}>
+                                                    <label htmlFor={editModal}>Edit</label>
                                                 </button>
                                             </td>
                                         );

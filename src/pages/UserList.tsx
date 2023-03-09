@@ -135,7 +135,7 @@ const UserList = () => {
 
     const handleDelete = useCallback((selectedId: number) => {
         Swal.fire({
-            title: `Delete user ${rows.find((row: any) => row.id === selectedId).full_name}?`,
+            title: `Delete user?`,
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
@@ -257,6 +257,7 @@ const UserList = () => {
                         {filters.map((filter: string) => {
                             return (
                                 <Filter
+                                    key={filter}
                                     labelText={filter}
                                     defaultOption={`Filter ${filter}`}
                                     options={eval(`every${filter}`)}
