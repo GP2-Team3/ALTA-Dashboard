@@ -279,7 +279,7 @@ const UserList = () => {
                     </div>
 
                     <Table
-                    key={filteredRows.id}
+                        key={filteredRows.id}
                         rows={filteredRows}
                         columns={headers}
                         loading={loading}
@@ -289,11 +289,6 @@ const UserList = () => {
 
                     />
 
-                    <div className='flex gap-2 justify-end items-center'>
-                        <button className='btn btn-primary text-white'>Prev</button>
-                        <h1 className='mx-5'>{page}</h1>
-                        <button className='btn btn-primary text-white'>Next</button>
-                    </div>
                     <AddUser
                         onSubmit={editMode ? handleEditUser : handleNewUser}
                         editValues={userEditValues}
