@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { MdDeleteForever, MdModeEdit, } from 'react-icons/md';
+import {IoEllipsisHorizontalSharp} from 'react-icons/io5'
 
 interface TableProps {
     rows: any[];
@@ -37,23 +39,23 @@ const Table: React.FC<TableProps> = ({ rows, columns, loading, handleEdit, handl
                                     if (columns[key] === "Edit") {
                                         return (
                                             <td key={key} className='text-accent border-primary/50'>
-                                                <button onClick={() => handleEdit && handleEdit(row.id)}>
-                                                    <label htmlFor={editModal}>Edit</label>
-                                                </button>
+                                                <button className='text-orange-alta hover:text-dark-alta' onClick={() => handleEdit && handleEdit(row.id)}>
+                                                    <label className='cursor-pointer' htmlFor={editModal}><MdModeEdit size={25} /></label>
+                                                </button> 
                                             </td>
                                         );
                                     }
                                     if (columns[key] === "Delete") {
                                         return (
                                             <td key={key} className='text-accent border-primary/50'>
-                                                <button onClick={() => handleDelete && handleDelete(row.id)}>Delete</button>
+                                                <button className='text-orange-alta hover:text-dark-alta' onClick={() => handleDelete && handleDelete(row.id)}><MdDeleteForever size={25} /></button>
                                             </td>
                                         );
                                     }
                                     if (columns[key] === "Details") {
                                         return (
                                             <td key={key} className='text-accent border-primary/50'>
-                                                <button onClick={() => handleDetails && handleDetails(row.id)}>Details</button>
+                                                <button className='text-dark-alta hover:text-orange-alta cursor-pointer' onClick={() => handleDetails && handleDetails(row.id)}><IoEllipsisHorizontalSharp size={25}/></button>
                                             </td>
                                         );
                                     }

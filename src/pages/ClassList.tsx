@@ -13,6 +13,7 @@ import Table from "../components/Table";
 import { AuthState, User, logout } from "../store/features/userSlice";
 import AddUser, { FormValues } from "../components/AddUser";
 import ModalClass, { FormClassValues } from "../components/ModalClass";
+import { MdClass } from "react-icons/md";
 
 const ClassList = () => {
   // Cookies for login & logout
@@ -66,7 +67,6 @@ const ClassList = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const isAdmin: boolean = auth.user?.data.role === "Admin";
 
-  const filters: string[] = ["Team", "Role", "Status"];
   const headers: Record<string, string> = {
     id: "ID",
     name: "Class Name",
@@ -233,8 +233,9 @@ const ClassList = () => {
             />
 
             {/* <!-- Modal toggle --> */}
-            <label htmlFor="my-modal-6" className="btn">
-              Add Class
+            <label htmlFor="my-modal-6" className="btn btn-ghost bg-white hover:text-orange-alta hover:bg-white text-dark-alta">
+            <MdClass size={40} />
+            Add Class
             </label>
 
             {/* Put this part before </body> tag */}
