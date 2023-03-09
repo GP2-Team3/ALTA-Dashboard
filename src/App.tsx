@@ -9,6 +9,7 @@ import { CookiesProvider } from 'react-cookie';
 import AddMentee from "./pages/AddNewMentee";
 import MenteeLog from "./pages/MenteeLog";
 import ClassList from "./pages/ClassList";
+import MenteeList from "./pages/MenteeList";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -23,6 +24,7 @@ function App() {
         <Route path="/addnewmente" element={<AddMentee />} />
         <Route path="/userlist" element={<UserList />} />
         <Route path="/classlist" element={<ClassList />} />
+        <Route path="/menteelist" element={<MenteeList />} />
         <Route path="/menteelog/:id" element={<MenteeLog />} />
       </Routes>
     </BrowserRouter>

@@ -23,7 +23,7 @@ const Table: React.FC<TableProps> = ({ rows, columns, loading, handleEdit, handl
                         {/* Gets headers from column */}
                         {Object.keys(columns).map((key) => {
                             return (
-                                <th className='bg-primary border-primary text-white'>{columns[key]}</th>
+                                <th key={key} className='bg-primary border-primary text-white'>{columns[key]}</th>
                             )
                         })}
                     </tr>
@@ -36,7 +36,7 @@ const Table: React.FC<TableProps> = ({ rows, columns, loading, handleEdit, handl
                                 {Object.keys(columns).map((key) => {
                                     if (columns[key] === "Edit") {
                                         return (
-                                            <td className='text-accent border-primary/50'>
+                                            <td key={key} className='text-accent border-primary/50'>
                                                 <button onClick={() => handleEdit && handleEdit(row.id)}>
                                                     <label htmlFor={editModal}>Edit</label>
                                                 </button>
@@ -45,14 +45,14 @@ const Table: React.FC<TableProps> = ({ rows, columns, loading, handleEdit, handl
                                     }
                                     if (columns[key] === "Delete") {
                                         return (
-                                            <td className='text-accent border-primary/50'>
+                                            <td key={key} className='text-accent border-primary/50'>
                                                 <button onClick={() => handleDelete && handleDelete(row.id)}>Delete</button>
                                             </td>
                                         );
                                     }
                                     if (columns[key] === "Details") {
                                         return (
-                                            <td className='text-accent border-primary/50'>
+                                            <td key={key} className='text-accent border-primary/50'>
                                                 <button onClick={() => handleDetails && handleDetails(row.id)}>Details</button>
                                             </td>
                                         );
