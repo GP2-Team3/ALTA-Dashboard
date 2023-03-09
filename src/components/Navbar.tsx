@@ -22,7 +22,7 @@ const Navbar: FC <Props> = ({ namePages, userName,onLogout }) => {
             <p className={`text-3xl text-primary/50 hover:`} >
               Hello, <span className="text-primary font-bold">{userName}</span>
             </p>
-            <button onClick={onLogout} className="btn btn-xs">logout</button>
+            <button onClick={onLogout} className="btn btn-xs bg-orange-alta border border-orange-alta text-white  hover:text-orange-alta hover:bg-white hover:border-orange-alta">logout</button>
           </div>
         </div>
       </div>

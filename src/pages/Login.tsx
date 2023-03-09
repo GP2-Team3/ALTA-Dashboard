@@ -24,7 +24,7 @@ const Login = () => {
       e.preventDefault();
       try {
         const response = await axios.post(
-          "http://104.198.56.90:8081/users/login",
+          "https://my-extravaganza.site/users/login",
           {
             email: email,
             password: password,
