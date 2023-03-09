@@ -2,9 +2,8 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { useSelector, useDispatch } from 'react-redux';
-import { json, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
-import CardDashboard from '../components/CardDashboard';
 import Container from '../components/Container';
 import Filter from '../components/Filter';
 import Navbar from '../components/Navbar';
@@ -60,7 +59,6 @@ const UserList = () => {
 
     // Tables
     const [page, setPage] = useState<number>(1);
-    // const endpoint = `https://api-generator.retool.com/zS55yz/data`
     const endpoint = `https://my-extravaganza.site/users`
     const endpointPage = `${endpoint}?page=${page}&limit=100`
     const [rows, setRows] = useState<any>([]);
@@ -68,16 +66,6 @@ const UserList = () => {
     const isAdmin: boolean = auth.user?.data.role === "Admin"
 
     const filters: string[] = ["Team", "Role", "Status"];
-    // const headers: Record<string, string> = {
-    //     "id": "No.",
-    //     "FullName": "Full Name",
-    //     "Email": "Email",
-    //     "Team": "Team",
-    //     "Role": "Role",
-    //     "Status": "Status",
-    //     "Edit": "Edit",
-    //     "Delete": "Delete"
-    // };
     const headers: Record<string, string> = isAdmin ?
         {
             "id": "ID",
