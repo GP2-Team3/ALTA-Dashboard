@@ -22,7 +22,7 @@ const AddMentee = () => {
   const [emergencyPhone, setEmergencyPhone] = useState("");
   const [major, setMajor] = useState("");
   const [graduate, setGraduate] = useState("");
-  const [id, setId] = useState<number | any>();
+  const [id, setId] = useState<number>();
   const [cookies, setCookie, removeCookie] = useCookies(["userToken"]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,22 +30,40 @@ const AddMentee = () => {
   const auth = useSelector((state: { auth: AuthState }) => state.auth);
   const fullname = JSON.parse(localStorage.getItem("user") || "") as User;
 
-  const addNewMente = {
-    full_name: name,
-    email: email,
-    address: address,
-    phone: phone,
-    telegram: telegram,
-    emergency_name: emergencyName,
-    emergency_phone: emergencyPhone,
-    emergency_status: status,
-    education_type: education,
-    education_major: major,
-    education_grad_date: graduate,
-    class_id: id,
-  };
+  // console.log(typeof id);
+  
+
+  // console.log(name);
+  // console.log(address);
+  // console.log(email);
+  // console.log(telegram);
+  // console.log(phone);
+  // console.log(emergencyName);
+  // console.log(emergencyPhone);
+  // console.log(status);
+  // console.log(education);
+  // console.log(major);
+  // console.log(graduate);
+  // console.log(id);
+  
+
+  
 
   const menteeAdd = async (e: any) => {
+    const addNewMente = {
+      full_name: name,
+      email: email,
+      address: address,
+      phone: phone,
+      telegram: telegram,
+      emergency_name: emergencyName,
+      emergency_phone: emergencyPhone,
+      emergency_status: status,
+      education_type: education,
+      education_major: major,
+      education_grad_date: graduate,
+      class_id: id,
+    };
     e.preventDefault();
     await axios
       .post("https://my-extravaganza.site/mentees", addNewMente, {
@@ -87,7 +105,7 @@ const AddMentee = () => {
       dispatch(logout());
     }
   }, [cookies.userToken, dispatch]);
-
+  console.log(auth.user?.data?.role);
   return (
     <Container>
       <Sidebar />
@@ -186,6 +204,7 @@ const AddMentee = () => {
             <label className="flex flex-row justify-between items-center">
               <span className="text-2xl font-bold">Phone : </span>
               <input
+                onChange={(e) => setEmergencyPhone(e.target.value)}
                 type="text"
                 placeholder="081312344321"
                 className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
@@ -207,19 +226,19 @@ const AddMentee = () => {
               <span className="text-2xl font-bold">Type : </span>
               <div className="items-center flex gap-3  mr-[340px]">
                 <input
-                  onChange={(e) => setEducation(e.target.value)}
+                  onChange={(e) => setEducation("IT")}
                   type="radio"
                   name="radio-2"
                   className="radio border border-gray-400"
                 />
-                <span>INFORMATICS</span>
+                <span>IT</span>
                 <input
-                  onChange={(e) => setEducation(e.target.value)}
+                  onChange={(e) => setEducation("NON-IT")}
                   type="radio"
                   name="radio-2"
                   className=" radio border border-gray-400"
                 />
-                <span>NON-INFORMATICS</span>
+                <span>NON-IT</span>
               </div>
             </label>
             <label className="flex flex-row justify-between items-center">
@@ -243,7 +262,7 @@ const AddMentee = () => {
             <label className="flex flex-row justify-between items-center">
               <span className="text-2xl font-bold">class ID : </span>
               <input
-                onChange={(e) => setId(e.target.value)}
+                onChange={(e) => setId(parseInt(e.target.value))}
                 type="number"
                 placeholder=""
                 className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
