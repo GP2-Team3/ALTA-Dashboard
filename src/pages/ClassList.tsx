@@ -70,9 +70,22 @@ const ClassList = () => {
     {
         "id": "ID",
         "name": "Class Name",
+        "start_date": "Start Date",
+        "end_date": "End Date",
         "Edit": "Edit",
         "Delete": "Delete"
     }
+
+    const [searchTerm, setSearchTerm] = useState<string>('');
+
+    const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredRows = rows.filter((row: any) => {
+        const nameMatch = row.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return nameMatch;
+    });
 
     const fetchTableData = async () => {
         try {
@@ -99,10 +112,26 @@ const ClassList = () => {
                     onLogout={handleLogout}
                     namePages='Classes'
                 />
+                <div className='flex flex-col gap-2 mx-6'>
+                    <div className='flex gap-2 items-end mb-2'>
+                        <Searchbar
+                            searchTerm={searchTerm}
+                            handleFilterChange={handleSearchInputChange}
+                        />
+
+
+                        {/* <button onClick={() => {
+                        setEditMode(false);
+                        setUserEditValues(initialUserValues);
+                    }}>
+                        <label className='text-primary btn btn-ghost' htmlFor="add-user-modal">New User</label>
+                    </button> */}
+                    </div>
+                </div>
 
                 <div className='flex flex-col gap-2 mx-6'>
                     <Table
-                        rows={rows}
+                        rows={filteredRows}
                         columns={headers}
                         loading={loading}
                     // handleDelete={handleDelete}
