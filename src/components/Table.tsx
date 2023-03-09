@@ -4,12 +4,13 @@ interface TableProps {
     rows: any[];
     columns: Record<string, string>;
     loading: boolean;
-    handleEdit?: React.MouseEventHandler;
-    handleDelete?: React.MouseEventHandler;
-    handleDetails?: React.MouseEventHandler;
+    handleEdit?: (id: number) => void;
+    handleDelete?: (id: number) => void;
+    handleDetails?: (id: number) => void;
+    editModal?: string;
 }
 
-const Table: React.FC<TableProps> = ({ rows, columns, loading, handleEdit, handleDelete, handleDetails }) => {
+const Table: React.FC<TableProps> = ({ rows, columns, loading, handleEdit, handleDelete, handleDetails, editModal }) => {
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -36,21 +37,23 @@ const Table: React.FC<TableProps> = ({ rows, columns, loading, handleEdit, handl
                                     if (columns[key] === "Edit") {
                                         return (
                                             <td className='text-accent border-primary/50'>
-                                                <button onClick={handleEdit}>Edit</button>
+                                                <button onClick={() => handleEdit && handleEdit(row.id)}>
+                                                    <label htmlFor={editModal}>Edit</label>
+                                                </button>
                                             </td>
                                         );
                                     }
                                     if (columns[key] === "Delete") {
                                         return (
                                             <td className='text-accent border-primary/50'>
-                                                <button onClick={handleDelete}>Delete</button>
+                                                <button onClick={() => handleDelete && handleDelete(row.id)}>Delete</button>
                                             </td>
                                         );
                                     }
                                     if (columns[key] === "Details") {
                                         return (
                                             <td className='text-accent border-primary/50'>
-                                                <button onClick={handleDetails}>Details</button>
+                                                <button onClick={() => handleDetails && handleDetails(row.id)}>Details</button>
                                             </td>
                                         );
                                     }

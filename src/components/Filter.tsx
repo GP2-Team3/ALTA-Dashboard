@@ -15,7 +15,7 @@ const Filter: React.FC<FilterProps> = ({ labelText, defaultOption, options, sele
                 <span className="text-primary label-text">{labelText}</span>
             </label>
             <div>
-                <select className='text-primary select select-bordered' value={selected} onChange={handleFilterChange}>
+                <select name={labelText} className='text-primary select select-bordered' value={selected} onChange={handleFilterChange}>
                     <option value="">{defaultOption}</option>
                     {options.map((option) => (
                         <option key={option} value={option}>{option}</option>
