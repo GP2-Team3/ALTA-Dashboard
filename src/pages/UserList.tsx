@@ -274,10 +274,6 @@ const UserList = () => {
                                 <label className='text-primary btn btn-ghost' htmlFor="add-user-modal">New User</label>
                             </button> :
                             <></>}
-
-
-
-
                     </div>
 
                     <Table
