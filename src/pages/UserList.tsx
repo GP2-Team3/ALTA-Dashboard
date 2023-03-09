@@ -245,7 +245,7 @@ const UserList = () => {
                 <Navbar
                     userName={name?.data?.full_name}
                     onLogout={handleLogout}
-                    namePages='Dashboard'
+                    namePages='User List'
                 />
 
                 <div className='flex flex-col gap-2 mx-6'>

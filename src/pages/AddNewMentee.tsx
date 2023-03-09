@@ -109,7 +109,7 @@ const AddMentee = () => {
       dispatch(logout());
     }
   }, [cookies.userToken, dispatch]);
-  console.log(auth.user?.data?.role);
+  // console.log(auth.user?.data?.role);
 
   const endpointClass = `https://my-extravaganza.site/classes?page=1&limit=100`
   const [classes, setClasses] = useState([])
@@ -132,11 +132,11 @@ const AddMentee = () => {
   return (
     <Container>
       <Sidebar />
-      <div className="flex flex-col w-full overflow-hidden">
+      <div className="flex flex-col w-full ">
         <Navbar
           userName={fullname.data?.full_name}
           onLogout={handleLogout}
-          namePages={"Add New Mentee"}
+          namePages="Add New Mentee"
         />
         {/* START CONTENT HERE */}
         <div className="flex flex-wrap flex-col px-20  mx-10">
@@ -145,146 +145,146 @@ const AddMentee = () => {
             onSubmit={menteeAdd}
           >
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Name : </span>
+              <span className="text-lg font-semibold">Name : </span>
               <input
                 onChange={(e) => setName(e.target.value)}
                 type="text"
                 placeholder="Name"
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Address : </span>
+              <span className="text-lg font-semibold">Address : </span>
               <input
                 onChange={(e) => setAddress(e.target.value)}
                 type="text"
                 placeholder="Address"
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Home Address : </span>
+              <span className="text-lg font-semibold">Home Address : </span>
               <input
                 type="text"
                 placeholder="Home Address"
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Email : </span>
+              <span className="text-lg font-semibold">Email : </span>
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 placeholder="Email"
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
             <label className="flex flex-row items-center justify-between">
-              <span className="text-2xl font-bold">Gender : </span>
+              <span className="text-lg font-semibold">Gender : </span>
               <div className=" items-center flex gap-3  mr-[500px] ">
                 <input
                   type="radio"
                   name="radio-1"
-                  className="radio border border-gray-400 checked:bg-dark-alta"
+                  className="radio border border-gray-400 checked:bg-dark-alta w-5 h-5"
                 />
                 <span>Male</span>
                 <input
                   type="radio"
                   name="radio-1"
-                  className="radio border border-gray-400 checked:bg-dark-alta"
+                  className="radio border border-gray-400 checked:bg-dark-alta w-5 h-5"
                 />
                 <span>Female</span>
               </div>
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Telegram : </span>
+              <span className="text-lg font-semibold">Telegram : </span>
               <input
                 onChange={(e) => setTelegram(e.target.value)}
                 type="text"
                 placeholder="Telegram"
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Phone : </span>
+              <span className="text-lg font-semibold">Phone : </span>
               <input
                 onChange={(e) => setPhone(e.target.value)}
                 type="text"
                 placeholder="081312344321"
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
-            <span className="font-semibold text-4xl">Emergency Data</span>
+            <span className="font-semibold text-2xl">Emergency Data</span>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Name : </span>
+              <span className="text-lg font-semibold">Name : </span>
               <input
                 onChange={(e) => setEmergencyName(e.target.value)}
                 type="text"
                 placeholder="Name"
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Phone : </span>
+              <span className="text-lg font-semibold">Phone : </span>
               <input
                 onChange={(e) => setEmergencyPhone(e.target.value)}
                 type="text"
                 placeholder="081312344321"
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
-            <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Status : </span>
+            <label className="flex flex-row justify-between items-center ">
+              <span className="text-lg font-semibold">Status : </span>
               <select
                 onChange={(e) => setStatus(e.target.value)}
-                className="select select-bordered w-full max-w-2xl bg-white border border-gray-400 h-10"
+                className="select select-bordered w-full max-w-2xl bg-white border border-gray-400 h-8"
               >
                 <option>Saudara dari Orang Tua</option>
                 <option>Kakek Nenek</option>
                 <option>Orang Tua</option>
               </select>
             </label>
-            <span className="font-semibold text-4xl">Education Data</span>
+            <span className="font-semibold text-2xl">Education Data</span>
             <label className="flex flex-row  items-center  justify-between">
-              <span className="text-2xl font-bold">Type : </span>
-              <div className="items-center flex gap-3  mr-[340px]">
+              <span className="text-lg font-semibold">Type : </span>
+              <div className="items-center flex gap-3  mr-[515px] h-8 ">
                 <input
                   onChange={(e) => setEducation("IT")}
                   type="radio"
                   name="radio-2"
-                  className="radio border border-gray-400"
+                  className="radio border border-gray-400 w-5 h-5"
                 />
                 <span>IT</span>
                 <input
                   onChange={(e) => setEducation("NON-IT")}
                   type="radio"
                   name="radio-2"
-                  className=" radio border border-gray-400"
+                  className=" radio border border-gray-400 w-5 h-5"
                 />
                 <span>NON-IT</span>
               </div>
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Major : </span>
+              <span className="text-lg font-semibold">Major : </span>
               <input
                 onChange={(e) => setMajor(e.target.value)}
                 type="text"
                 placeholder=""
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Graduate : </span>
+              <span className="text-lg font-semibold">Graduate : </span>
               <input
                 onChange={(e) => setGraduate(e.target.value)}
                 type="text"
                 placeholder=""
-                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-10"
+                className="input input-bordered max-w-2xl w-full bg-white border border-gray-400 h-8"
               />
             </label>
             <label className="flex flex-row justify-between items-center">
-              <span className="text-2xl font-bold">Class : </span>
-              <select required className='select select-bordered max-w-2xl w-full bg-white border border-gray-400 h-10' onChange={(e) => setId(parseInt(e.target.value))}>
+              <span className="text-lg font-semibold">Class : </span>
+              <select required className='select select-bordered max-w-2xl w-full bg-white border border-gray-400 ' onChange={(e) => setId(parseInt(e.target.value))}>
                 <option disabled value="">Select a Class</option>
                 {classes.map((classy: any) => {
                   return (
