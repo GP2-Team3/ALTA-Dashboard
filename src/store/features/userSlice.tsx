@@ -17,9 +17,11 @@ export interface AuthState {
   user: User | null;
 }
 
+const savedUser = localStorage.getItem('user');
+
 const initialState: AuthState = {
-  isAuth: false,
-  user: null,
+  isAuth: !!savedUser,
+  user: savedUser ? JSON.parse(savedUser) : null,
 };
 
 export const authSlice = createSlice({

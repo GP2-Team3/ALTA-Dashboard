@@ -62,9 +62,10 @@ const UserList = () => {
     const [page, setPage] = useState<number>(1);
     // const endpoint = `https://api-generator.retool.com/zS55yz/data`
     const endpoint = `https://my-extravaganza.site/users`
-    const endpointPage = `${endpoint}?page=${page}&limit=5`
+    const endpointPage = `${endpoint}?page=${page}&limit=100`
     const [rows, setRows] = useState<any>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const isAdmin: boolean = auth.user?.data.role === "Admin"
 
     const filters: string[] = ["Team", "Role", "Status"];
     // const headers: Record<string, string> = {
@@ -77,16 +78,25 @@ const UserList = () => {
     //     "Edit": "Edit",
     //     "Delete": "Delete"
     // };
-    const headers: Record<string, string> = {
-        "id": "No.",
-        "full_name": "Full Name",
-        "email": "Email",
-        "team": "Team",
-        "role": "Role",
-        "status": "Status",
-        "Edit": "Edit",
-        "Delete": "Delete"
-    };
+    const headers: Record<string, string> = isAdmin ?
+        {
+            "id": "ID",
+            "full_name": "Full Name",
+            "email": "Email",
+            "team": "Team",
+            "role": "Role",
+            "status": "Status",
+            "Edit": "Edit",
+            "Delete": "Delete"
+        } :
+        {
+            "id": "ID",
+            "full_name": "Full Name",
+            "email": "Email",
+            "team": "Team",
+            "role": "Role",
+            "status": "Status"
+        };
 
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [selectedTeam, setSelectedTeam] = useState<string>('');
@@ -149,7 +159,10 @@ const UserList = () => {
             if (result.isConfirmed) {
                 setLoading(true);
                 axios
-                    .delete(`${endpoint}/${selectedId}`)
+                    .delete(
+                        `${endpoint}/${selectedId}`,
+                        { headers: { Authorization: `Bearer ${cookies.userToken}` } }
+                    )
                     .then(result => {
                         console.log("Row deleted: ", result);
                         Swal.fire({
@@ -170,13 +183,17 @@ const UserList = () => {
     const handleNewUser = (formValues: FormValues) => {
         setLoading(true);
         axios
-            .post(endpoint, {
-                full_name: formValues.full_name,
-                email: formValues.email,
-                team: formValues.team,
-                role: formValues.role,
-                status: formValues.status
-            })
+            .post(endpoint,
+                {
+                    full_name: formValues.full_name,
+                    email: formValues.email,
+                    password: formValues.password,
+                    team: formValues.team,
+                    role: formValues.role,
+                    status: formValues.status
+                },
+                { headers: { Authorization: `Bearer ${cookies.userToken}` } }
+            )
             .then(result => {
                 console.log("Form submitted with values: ", result)
                 fetchTableData();
@@ -195,9 +212,7 @@ const UserList = () => {
     }
 
     const [userEditValues, setUserEditValues] = useState<FormValues>(initialUserValues)
-
     const [editMode, setEditMode] = useState(false)
-
     const [selectedUser, setSelectedUser] = useState(0)
 
     const handleEditMode = (selectedId: number) => {
@@ -219,13 +234,13 @@ const UserList = () => {
         setLoading(true);
         axios
             .put(`${endpoint}/${selectedUser}`, {
-                FullName: formValues.full_name,
-                Email: formValues.email,
-                password: formValues.password,
-                Team: formValues.team,
-                Role: formValues.role,
-                Status: formValues.status
-            })
+                full_name: formValues.full_name,
+                email: formValues.email,
+                team: formValues.team,
+                role: formValues.role,
+                status: formValues.status
+            },
+                { headers: { Authorization: `Bearer ${cookies.userToken}` } })
             .then(result => {
                 console.log("Form submitted with values: ", result)
                 fetchTableData();
@@ -243,10 +258,6 @@ const UserList = () => {
                     onLogout={handleLogout}
                     namePages='Dashboard'
                 />
-
-
-                <h1>{JSON.stringify(userEditValues)}</h1>
-
 
                 <div className='flex flex-col gap-2 mx-6'>
                     <div className='flex gap-2 items-end'>
@@ -267,12 +278,16 @@ const UserList = () => {
                             )
                         })}
 
-                        <button onClick={() => {
-                            setEditMode(false);
-                            setUserEditValues(initialUserValues);
-                        }}>
-                            <label className='text-primary btn btn-ghost' htmlFor="add-user-modal">New User</label>
-                        </button>
+                        {isAdmin ?
+                            <button onClick={() => {
+                                setEditMode(false);
+                                setUserEditValues(initialUserValues);
+                            }}>
+                                <label className='text-primary btn btn-ghost' htmlFor="add-user-modal">New User</label>
+                            </button> :
+                            <></>}
+
+
 
 
                     </div>
