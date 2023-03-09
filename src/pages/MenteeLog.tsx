@@ -204,6 +204,7 @@ const MenteeLog = () => {
                   <option value="Join Class">Join Class</option>
                   <option value="Unit 1">Unit 1</option>
                   <option value="Unit 2">Unit 2</option>
+                  <option value="Unit 3">Unit 3</option>
                   <option value="Repeat Unit 1">Repeat Unit 1</option>
                   <option value="Repeat Unit 2">Repeat Unit 2</option>
                   <option value="Repeat Unit 2">Repeat Unit 3</option>
