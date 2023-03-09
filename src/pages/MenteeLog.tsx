@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Container from "../components/Container";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { json, useLocation, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthState, User, logout } from "../store/features/userSlice";
@@ -31,54 +31,42 @@ const MenteeLog = () => {
   const [id, setId] = useState<number>();
 
   const params = useParams();
-  const mentee = params.id;
-
-  console.log(title);
-  console.log(typeof id);
-  console.log(status);
-  console.log(feedback);
-
-  // "title": 
-  // "status": 
-  // "feedback": 
-  // "mentee_id": 
-
-
+  const mentee: any = params.id;
 
   const addNewLog = async () => {
     const addLogs = {
       title: title,
       status: status,
       feedback: feedback,
-      mentee_id: mentee,
+      mentee_id: parseInt(mentee),
     };
     await axios
       .post("https://my-extravaganza.site/logs", addLogs, {
         headers: { Authorization: `Bearer ${cookies.userToken}` },
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
+        setTitle("");
+        setStatus("");
+        setFeedback("");
+        getLogs();
       })
       .catch((err) => console.log(err));
   };
   // Add New Log end
 
   // Fetch data for details
-  const geDetails = async () => {
+  const getDetails = async () => {
     await axios
       .get(`https://my-extravaganza.site/mentees/${mentee}`, {
         headers: { Authorization: `Bearer ${cookies.userToken}` },
       })
       .then((res) => {
-
-
         setMentees(res.data.data);
+        console.log(res.data.data);
       })
       .catch((err) => console.log(err));
   };
-  console.log(mentees);
-  console.log("mentee:", mentee)
-
 
 
   const API_URL = `https://my-extravaganza.site/mentees/${mentee}/logs?page=1&limit=3`;
@@ -91,7 +79,7 @@ const MenteeLog = () => {
       console.log(error);
     }
   };
-// End fetch
+  // End fetch
 
   useEffect(() => {
     if (!cookies.userToken) {
@@ -99,7 +87,7 @@ const MenteeLog = () => {
     }
     getLogs();
     addNewLog();
-    geDetails()
+    getDetails()
   }, [cookies.userToken, dispatch]);
 
   // Handle For Logout
@@ -129,6 +117,22 @@ const MenteeLog = () => {
     });
   }, []);
 
+  const endpointClass = `https://my-extravaganza.site/classes?page=1&limit=100`
+  const [classes, setClasses]: any = useState([])
+  const fetchClassData = async () => {
+    try {
+      const response = await axios.get(endpointClass);
+      console.log("Classes: ", response.data.data);
+      setClasses(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchClassData();
+  }, [endpointClass])
+
 
   return (
     <Container>
@@ -143,13 +147,13 @@ const MenteeLog = () => {
           mentees ?
             <div className="flex px-20 justify-between">
               <div className="ml-20">
-                <h1 className="text-2xl">
+                <h1 className="text-2xl capitalize">
                   {mentees.full_name}
-                  <span className="text-slate-400 text-lg pl-5">(-{`kamil`}-)</span>
                 </h1>
                 <p className="text-lg">{mentees.education_type}</p>
                 <p className="text-xl">{mentees.education_major}</p>
-                <p className="text-xl">SMA Negeri 4 Surabaya</p>
+                <p className="text-xl capitalize">{mentees.address}</p>
+                <p className="text-xl">{classes.find((classy: any) => classy.id === mentees.class_id)?.name || "Unknown Class"}</p>
               </div>
               <div className="p-3 mr-20">
                 <p>
@@ -174,63 +178,67 @@ const MenteeLog = () => {
             Back
           </div>
           <label htmlFor="my-modal-6" className="bg-dark-alta w-30 text-white btn">
-        Add New Log
-      </label>
-      {/* Put this part before </body> tag */}
-      <input type="checkbox" id="my-modal-6" className="modal-toggle" />
-      <div className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="text-lg font-bold text-start">New Log</h3>
-          <div className="flex flex-col align-middle mt-5 gap-2">
-            <p className="flex flex-start text-dark-alta font-semibold">Title : </p>
-            <input type="text" className="input flex flex-start border rounded-md h-12 border-dark-alta"
-            placeholder="title"
-            onChange={(e) => setTitle(e.target.value)}
-            />
+            Add New Log
+          </label>
+          {/* Put this part before </body> tag */}
+          <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+          <div className="modal modal-bottom sm:modal-middle">
+            <div className="modal-box">
+              <h3 className="text-lg font-bold text-start">New Log</h3>
+              <div className="flex flex-col align-middle mt-5 gap-2">
+                <p className="flex flex-start text-dark-alta font-semibold">Title : </p>
+                <input type="text" className="input flex flex-start border rounded-md h-12 border-dark-alta"
+                  value={title}
+                  placeholder="title"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div className="flex  flex-col  text-start mt-5 gap-2">
+                <p className="text-dark-alta font-semibold">Status : </p>
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="select select-bordered w-40 bg-white border border-dark-alta h-10 text-dark-alta"
+                >
+                  <option value="Interview">Interview</option>
+                  <option value="Join Class">Join Class</option>
+                  <option value="Unit 1">Unit 1</option>
+                  <option value="Unit 2">Unit 2</option>
+                  <option value="Repeat Unit 1">Repeat Unit 1</option>
+                  <option value="Repeat Unit 2">Repeat Unit 2</option>
+                  <option value="Repeat Unit 2">Repeat Unit 3</option>
+                  <option value="Placement">Placement</option>
+                  <option value="Eliminated">Eliminated</option>
+                  <option value="Graduated">Graduated</option>
+                </select>
+              </div>
+              <div className="flex flex-col mt-5 mb-5 text-start gap-2">
+                <p className="text-dark-alta font-semibold">Feedback : </p>
+                <textarea
+                  value={feedback}
+                  placeholder="Bio"
+                  className="textarea textarea-bordered textarea-xs w-full max-w-xs"
+                  onChange={(e) => setFeedback(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="flex flex-row justify-end align-middle gap-2">
+                <label
+                  htmlFor="my-modal-6"
+                  className="modal-action btn-sm w-20 my-auto btn  bg-white border border-orange-alta hover:bg-orange-alta hover:text-white hover:border-none text-orange-alta "
+                >
+                  Cancel
+                </label>
+                <button type="submit" onClick={addNewLog}>
+                  <label
+                    className="btn btn-sm bg-orange-alta border border-orange-alta text-white w-20 hover:text-orange-alta hover:bg-white hover:border-orange-alta"
+                    htmlFor="my-modal-6"
+                  >
+                    Save
+                  </label>
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col align-middle mt-5">
-            <p className="flex flex-start text-dark-alta font-semibold">Mentee ID : </p>
-            <input type="number" className="input flex flex-start border w-48 h-12 border-dark-alta rounded-md"
-            placeholder="type your id here"
-            onChange={(e) => setId(parseInt(e.target.value))}
-            />
-          </div>
-          <div className="flex  flex-col  text-start mt-5 gap-2">
-            <p className="text-dark-alta font-semibold">Status : </p>
-            <select         
-              onChange={(e) => setStatus(e.target.value)}
-              className="select select-bordered w-40 bg-white border border-dark-alta h-10 text-dark-alta"
-            >
-              <option value="Join Class">Join Class</option>
-              <option value="Not-Active">Not-Active</option>
-              <option value="Deleted">Deleted</option>
-            </select>
-          </div>
-          <div className="flex flex-col mt-5 mb-5 text-start gap-2">
-            <p className="text-dark-alta font-semibold">Feedback : </p>
-            <textarea
-              placeholder="Bio"
-              className="textarea textarea-bordered textarea-xs w-full max-w-xs"
-              onChange={(e) => setFeedback(e.target.value)}
-            ></textarea>
-          </div>
-          <div className="flex flex-row justify-end align-middle gap-2">
-            <label
-              htmlFor="my-modal-6"
-              className="modal-action btn-sm w-20 my-auto btn  bg-white border border-orange-alta hover:bg-orange-alta hover:text-white hover:border-none text-orange-alta "
-            >
-              Cancel
-            </label>
-            <button
-              type="submit"
-              className="btn btn-sm bg-orange-alta border border-orange-alta text-white w-20 hover:text-orange-alta hover:bg-white hover:border-orange-alta"
-              onClick={addNewLog}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </div>
 
         </div>
         <div className="flex flex-col gap-5 pt-5">
@@ -249,7 +257,7 @@ const MenteeLog = () => {
             })
           ) : (
             <>
-              <CardNewLog
+              {/* <CardNewLog
                 title={`Adam`}
                 fullName={`Adam fadrian`}
                 date={`2016-09-09`}
@@ -269,7 +277,7 @@ const MenteeLog = () => {
                 date={`2016-09-09`}
                 feedback={`lorem ipsum sit dolor amat`}
                 status={`Active`}
-              />
+              /> */}
             </>
           )}
         </div>
