@@ -26,11 +26,9 @@ const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const name = JSON.parse(localStorage.getItem('user') || "") as User
-
-  console.log(auth.user);
-  console.log(auth.user?.token);
-
+  const fullname = JSON.parse(localStorage.getItem('user') || "") as User
+    console.log();
+    
 
   const handleLogout = useCallback(() => {
     Swal.fire({
@@ -77,7 +75,7 @@ const Dashboard = () => {
       <Sidebar />
       <div className='flex flex-col w-full'>
         <Navbar
-          userName={name?.data?.full_name}
+          userName={fullname.data?.full_name}
           onLogout={handleLogout}
           namePages='Dashboard'
         />

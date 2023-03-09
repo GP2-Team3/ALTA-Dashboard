@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CookiesProvider } from 'react-cookie';
 import AddMentee from "./pages/AddNewMentee";
+import MenteeLog from "./pages/MenteeLog";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,6 +21,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/addnewmente" element={<AddMentee />} />
           <Route path="/userlist" element={<UserList />} />
+          <Route path="/menteelog/:id" element={<MenteeLog />}/>
         </Routes>
       </BrowserRouter>
       
