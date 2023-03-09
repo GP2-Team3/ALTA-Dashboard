@@ -13,6 +13,8 @@ import Table from '../components/Table';
 import { AuthState, User, logout } from '../store/features/userSlice';
 import AddUser, { FormValues } from '../components/AddUser';
 import { Link } from 'react-router-dom';
+import ModalMentees, { FromMenteesValue } from '../components/ModalMentees';
+import { FaUsers } from 'react-icons/fa';
 
 const MenteeList = () => {
     // Cookies for login & logout
@@ -156,6 +158,74 @@ const MenteeList = () => {
         navigate(`/menteelog/${selectedID}`);
     }
 
+
+    // handle Edit Mentees
+    const initialMenteesValues: FromMenteesValue = {
+        full_name: '',
+        email: '',
+        address: '',
+        phone: '',
+        telegram: '',
+        emergency_name: '',
+        emergency_phone: '',
+        emergency_status: '',
+        education_type: '',
+        education_major: '',
+        education_grad_date: ''
+      };
+      const [menteesEditValues, setMenteesEditValues] = useState<FromMenteesValue>(initialMenteesValues);
+      const [editMode, setEditMode] = useState(false);
+      const [selectedMentees, setSelectedMentees] = useState<number>();
+    
+      const handleEditMode = (selectedId: number) => {
+        const properties = rows.find((row: any) => row.id === selectedId);
+        console.log(properties);
+        setEditMode(true);
+        setMenteesEditValues({
+          full_name: properties.full_name,
+          email: properties.email,
+          address: properties.address,
+          phone: properties.phone,
+          telegram: properties.telegram,
+          emergency_name: properties.emergency_name,
+          emergency_phone: properties.emergency_phone,
+          emergency_status: properties.emergency_status,
+          education_type: properties.education_type,
+          education_major: properties.education_major,
+          education_grad_date: properties.education_grad_date,
+         
+        });
+        setSelectedMentees(selectedId);
+      };
+    
+      const handleEditMentees = (formValues: FromMenteesValue) => {
+        setLoading(true);
+        axios
+          .put(
+            `https://my-extravaganza.site/mentees/${selectedMentees}`,
+            {
+                full_name: formValues.full_name,
+                email: formValues.email,
+                address: formValues.address,
+                phone: formValues.phone,
+                telegram: formValues.telegram,
+                emergency_name: formValues.emergency_name,
+                emergency_phone: formValues.emergency_phone,
+                emergency_status: formValues.emergency_status,
+                education_type: formValues.education_type,
+                education_major: formValues.education_major,
+                education_grad_date: formValues.education_grad_date,
+            },
+            { headers: { Authorization: `Bearer ${cookies.userToken}` } },
+          )
+          .then((result) => {
+            console.log("Form submitted with values: ", result);
+            fetchTableData();
+          })
+          .catch((error) => console.log(error))
+          .finally(() => setLoading(false));
+      };
+
     return (
         <Container>
             <Sidebar />
@@ -175,11 +245,15 @@ const MenteeList = () => {
                         />
 
 
-                        <Link to={"/addnewmente"} className='text-primary btn btn-ghost'>New Mentee</Link>
+                        <Link to={"/addnewmente"} className='btn btn-ghost bg-white hover:text-orange-alta hover:bg-white text-dark-alta'><FaUsers size={40} /> <span className='ml-2'>Add New Mentee</span></Link>
 
                     </div>
                 </div>
-
+                <ModalMentees
+          onSubmit={handleEditMentees}
+          editValues={menteesEditValues}
+          editMode={editMode}
+        />
                 <div className='flex flex-col gap-2 mx-6'>
                     <Table
                         rows={filteredRows}
@@ -187,8 +261,8 @@ const MenteeList = () => {
                         loading={loading}
                         handleDelete={handleDelete}
                         handleDetails={handleDetails}
-                    // handleEdit={handleEditMode}
-                    // editModal="add-user-modal"
+                    handleEdit={handleEditMode}
+                    editModal="add-user-modal"
                     />
 
                 </div>

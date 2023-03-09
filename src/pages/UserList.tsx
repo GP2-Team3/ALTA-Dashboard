@@ -12,6 +12,7 @@ import Sidebar from '../components/Sidebar';
 import Table from '../components/Table';
 import { AuthState, User, logout } from '../store/features/userSlice';
 import AddUser, { FormValues } from '../components/AddUser';
+import { MdPersonAddAlt1 } from 'react-icons/md';
 
 const UserList = () => {
     // Cookies for login & logout
@@ -272,7 +273,7 @@ const UserList = () => {
                                 setEditMode(false);
                                 setUserEditValues(initialUserValues);
                             }}>
-                                <label className='text-primary btn btn-ghost' htmlFor="add-user-modal">New User</label>
+                                <label className='btn btn-ghost bg-white hover:text-orange-alta hover:bg-white text-dark-alta' htmlFor="add-user-modal"><MdPersonAddAlt1 size={40} /> <span className='ml-2'>Add New User</span> </label>
                             </button> :
                             <></>}
                     </div>
