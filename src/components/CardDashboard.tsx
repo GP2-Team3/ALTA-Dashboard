@@ -7,7 +7,7 @@ import { VscFeedback } from 'react-icons/vsc';
 
 const CardDashboard = () => {
     return (
-        <div className='grid md:grid-cols-3 sm:grid-cols-2 mb-10'>
+        <div className='grid gap-2 md:grid-cols-3 sm:grid-cols-1 mb-10'>
             <div className="card w-[400px]  shadow-xl mt-15 mx-auto bg-zinc-300 h-64">
                 <div className="card-body  gap-14">
                     <p className='flex text-2xl text-primary'>

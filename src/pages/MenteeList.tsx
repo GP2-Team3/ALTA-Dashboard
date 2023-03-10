@@ -73,7 +73,7 @@ const MenteeList = () => {
         "id": "ID",
         "full_name": "Name",
         "class_name": "Class",
-        "education_type": "Category",
+        "education_type": "Education",
         "status": "Status",
         "Details": "Details",
         "Edit": "Edit",
@@ -83,6 +83,7 @@ const MenteeList = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [selectedClass, setSelectedClass] = useState<string>('');
     const [selectedStatus, setSelectedStatus] = useState<string>('');
+    const [selectedEducation, setSelectedEducation] = useState<string>('');
 
     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
@@ -93,17 +94,45 @@ const MenteeList = () => {
     const handleSelectedStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedStatus(event.target.value);
     };
+    const handleSelectedEducationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedEducation(event.target.value);
+    };
 
     const rowsWithClass: any = Object.values(rows).map((row: any) => ({
         ...row,
         class_name: classes.find((classy: any) => classy.id === row.class_id)?.name
     }));
 
+    // async function getRowsWithNewClass() {
+    //     const rowsWithNewClass = await Promise.all(Object.values(rows).map(async (row: any) => {
+    //         let education_mode: string = "IT";
+    //         try {
+    //             const response = await axios.get(`${endpoint}/${row.id}`, { headers: { Authorization: `Bearer ${cookies.userToken}` } });
+    //             education_mode = response.data.data.education_type;
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //         const class_name = classes.find((classy: any) => classy.id === row.class_id)?.name;
+    //         return {
+    //             ...row,
+    //             education_mode,
+    //             class_name,
+    //         };
+    //     }));
+    //     return rowsWithNewClass;
+    // };
+
+    // getRowsWithNewClass()
+    //     .then(result => console.log("result", result))
+    //     .catch(error => console.error(error));
+
+
     const filteredRows = rowsWithClass.filter((row: any) => {
         const nameMatch = row.full_name.toLowerCase().includes(searchTerm.toLowerCase());
         const classMatch = selectedClass === '' || row.class_name == classes.find((classy: any) => classy.short_name === selectedClass)?.name;
         const statusMatch = selectedStatus === '' || row.status.toLowerCase() === selectedStatus.toLowerCase();
-        return nameMatch && classMatch && statusMatch;
+        const educationMatch = selectedEducation === '' || row.education_type.toLowerCase() === selectedEducation.toLowerCase();
+        return nameMatch && classMatch && statusMatch && educationMatch;
     });
 
     const fetchTableData = async () => {
@@ -120,7 +149,9 @@ const MenteeList = () => {
 
     const fetchClassData = async () => {
         try {
-            const response = await axios.get(endpointClass);
+            const response = await axios.get(
+                endpointClass
+            );
             console.log("Classes: ", response.data.data);
             setClasses(response.data.data);
         } catch (error) {
@@ -154,6 +185,7 @@ const MenteeList = () => {
             "Eliminated",
             "Graduated"
         ];
+    const everyEducation: string[] = ["IT", "Non-IT"]
 
     console.log("newRow", rowsWithClass)
 
@@ -293,12 +325,22 @@ const MenteeList = () => {
                         />
 
                         <Filter
+                            labelText="Education"
+                            defaultOption="Filter Education"
+                            options={everyEducation}
+                            selected={selectedEducation}
+                            handleFilterChange={handleSelectedEducationChange}
+                        />
+
+                        <Filter
                             labelText="Status"
                             defaultOption="Filter Status"
                             options={everyStatus}
                             selected={selectedStatus}
                             handleFilterChange={handleSelectedStatusChange}
                         />
+
+
 
                         <Link to={"/addnewmente"} className='btn btn-ghost bg-white hover:text-orange-alta hover:bg-white text-dark-alta'><FaUsers size={40} /> <span className='ml-2'>Add New Mentee</span></Link>
 
